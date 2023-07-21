@@ -1,0 +1,42 @@
+name: hangman
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  firebase_core: ^2.15.0
+  cloud_firestore: ^4.8.3
+  intl: ^0.18.1
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  
+
+flutter:
+  uses-material-design: true
+
+# adding images to the app
+  assets:
+    - images/
+    - res/hangman_words.txt
+
+
+# adding the font family
+  fonts:
+    - family: FiraMono
+      fonts:
+        - asset: fonts/FiraMono-Bold.ttf
+        - asset: fonts\FiraMono-Medium.ttf
+        - asset: fonts\FiraMono-Regular.ttf
+
+    - family: PatrickHand
+      fonts:
+        - asset: fonts\PatrickHand-Regular.ttf
