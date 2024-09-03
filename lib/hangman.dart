@@ -252,126 +252,129 @@ Future<bool?> exitingTheGameDialog(BuildContext context) async => showDialog<boo
         return dialog ?? false;
       },
       child: Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Icon(Icons.favorite,color: Colors.white,size: 39,),
-                    Text('$life',style: const TextStyle(color: Color(0xFF421b9b),fontSize: 20,fontWeight: FontWeight.w900),
-                    textAlign: TextAlign.center,)
-                    
-                  ],
-                ),
-                Text('$score',
-                style: const TextStyle(fontSize: 30,fontWeight: FontWeight.w900,color: Colors.white,letterSpacing: 1),),
-                
-                // here it gives you a hint ... a free letter / letters
-                IconButton(
-                  onPressed:(){
-                    if(isHintClickable == true){
-                      String hintLetter  = '';
-                        int i = 0;
-                        while(i<word.length && wordHidden.contains(word[i].toUpperCase()) == true){
-                          i++;
-                        }
-                        setState(() {
-                        hintLetter = word[i];
-                        for(int i=0;i<word.length;i++){
-                          if(word[i] == hintLetter){
-                            wordHidden = wordHidden.substring(0,i) + hintLetter.toUpperCase() + wordHidden.substring(i+1,wordHidden.length);
-                          }
-                        }
-                        if(wordHidden.toLowerCase() == word){
-                          win = true;
-                          winOrLoseDialog();
-                        }
-                        isHintClickable = false;   
-                      });
-                    }
-                  },
-                  icon: Icon(Icons.lightbulb,size: 39,color: isHintClickable == true ? Colors.white : Colors.transparent,),
-                  )
-              ],
-            ),
-            ),
-            
-            Image(
-              image: tries == 5 ? const AssetImage('images/0.png'):
-                     tries == 4 ? const AssetImage('images/1.png'):
-                     tries == 3 ? const AssetImage('images/2.png'):
-                     tries == 2 ? const AssetImage('images/3.png'):
-                     tries == 1 ? const AssetImage('images/4.png'):
-                     tries == 0 ? const AssetImage('images/5.png'):
-                     const AssetImage('images/6.png'),
-              height: MediaQuery.of(context).size.height*0.3,
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Text(wordHidden,
-                style: const TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.w900,letterSpacing: 10),),
-              ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5,0,5,0),
-                  child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
-                shrinkWrap: true,
-                itemCount: 26,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context,index){
-                  return Container(
-                    margin: const EdgeInsets.fromLTRB(7, 5, 0, 0),
-                    decoration: BoxDecoration(
-                      color:isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextButton(
-                      // color: isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
-                      // height: 45,
-                      // minWidth: 45,
-                      // shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
-                      onPressed: isButtonClickable[index]?()=>whenButtonPressed(index): null,
-                      child: Text(alphabet[index],
-                      style: const TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Icon(Icons.favorite,color: Colors.white,size: 39,),
+                      Text('$life',style: const TextStyle(color: Color(0xFF421b9b),fontSize: 20,fontWeight: FontWeight.w900),
+                      textAlign: TextAlign.center,)
+                      
+                    ],
                   ),
-                );
-                }
-                ),
-                ),
-                // GridView.builder(
-                // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
-                // shrinkWrap: true,
-                // itemCount: 26,
-                // physics: const NeverScrollableScrollPhysics(),
-                // itemBuilder: (context,index){
-                //   return Container(
-                //     margin: const EdgeInsets.fromLTRB(5, 5, 0, 10),
-                //     decoration: BoxDecoration(
-                //       color:isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     child: TextButton(
-                //       // color: isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
-                //       // height: 45,
-                //       // minWidth: 45,
-                //       // shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
-                //       onPressed: isButtonClickable[index]?()=>whenButtonPressed(index): null,
-                //       child: Text(alphabet[index],
-                //       style: const TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
-                //   ),
-                // );
-                // }
-                // ),
+                  Text('$score',
+                  style: const TextStyle(fontSize: 30,fontWeight: FontWeight.w900,color: Colors.white,letterSpacing: 1),),
+                  
+                  // here it gives you a hint ... a free letter / letters
+                  IconButton(
+                    onPressed:(){
+                      if(isHintClickable == true){
+                        String hintLetter  = '';
+                          int i = 0;
+                          while(i<word.length && wordHidden.contains(word[i].toUpperCase()) == true){
+                            i++;
+                          }
+                          setState(() {
+                          hintLetter = word[i];
+                          for(int i=0;i<word.length;i++){
+                            if(word[i] == hintLetter){
+                              wordHidden = wordHidden.substring(0,i) + hintLetter.toUpperCase() + wordHidden.substring(i+1,wordHidden.length);
+                            }
+                          }
+                          if(wordHidden.toLowerCase() == word){
+                            win = true;
+                            winOrLoseDialog();
+                          }
+                          isHintClickable = false;   
+                        });
+                      }
+                    },
+                    icon: Icon(Icons.lightbulb,size: 39,color: isHintClickable == true ? Colors.white : Colors.transparent,),
+                    )
+                ],
+              ),
+              ),
               
-              
-          ],
+              Image(
+                image: tries == 5 ? const AssetImage('images/0.png'):
+                       tries == 4 ? const AssetImage('images/1.png'):
+                       tries == 3 ? const AssetImage('images/2.png'):
+                       tries == 2 ? const AssetImage('images/3.png'):
+                       tries == 1 ? const AssetImage('images/4.png'):
+                       tries == 0 ? const AssetImage('images/5.png'):
+                       const AssetImage('images/6.png'),
+                height: MediaQuery.of(context).size.height*0.3,
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                  child: Text(wordHidden,
+                  style: const TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.w900,letterSpacing: 10),),
+                ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5,0,5,0),
+                    child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
+                  shrinkWrap: true,
+                  itemCount: 26,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context,index){
+                    return Container(
+                      margin: const EdgeInsets.fromLTRB(7, 5, 0, 0),
+                      decoration: BoxDecoration(
+                        color:isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextButton(
+                        // color: isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
+                        // height: 45,
+                        // minWidth: 45,
+                        // shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
+                        onPressed: isButtonClickable[index]?()=>whenButtonPressed(index): null,
+                        child: Text(alphabet[index],
+                        style: const TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+                    ),
+                  );
+                  }
+                  ),
+                  ),
+                  // GridView.builder(
+                  // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
+                  // shrinkWrap: true,
+                  // itemCount: 26,
+                  // physics: const NeverScrollableScrollPhysics(),
+                  // itemBuilder: (context,index){
+                  //   return Container(
+                  //     margin: const EdgeInsets.fromLTRB(5, 5, 0, 10),
+                  //     decoration: BoxDecoration(
+                  //       color:isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
+                  //       borderRadius: BorderRadius.circular(10),
+                  //     ),
+                  //     child: TextButton(
+                  //       // color: isButtonClickable[index]? const Color(0xFF1089ff) : Colors.grey,
+                  //       // height: 45,
+                  //       // minWidth: 45,
+                  //       // shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
+                  //       onPressed: isButtonClickable[index]?()=>whenButtonPressed(index): null,
+                  //       child: Text(alphabet[index],
+                  //       style: const TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+                  //   ),
+                  // );
+                  // }
+                  // ),
+                
+                
+            ],
+          ),
         ),
       ),
     ),
