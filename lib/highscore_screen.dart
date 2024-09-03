@@ -9,7 +9,7 @@ class HighscoresScreen extends StatefulWidget {
   State<HighscoresScreen> createState() => _HighscoresScreenState();
 }
 
-Widget buildHighScore(BuildContext context,DocumentSnapshot document){
+Widget buildHighScore(BuildContext context,DocumentSnapshot document,int index){
 
   return ListTile(
     title: Padding(
@@ -17,6 +17,8 @@ Widget buildHighScore(BuildContext context,DocumentSnapshot document){
       child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        Text("$index",
+        style: const TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.normal),),
         Text(document['date'],
         style: const TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.normal),),
         Text(document['score'].toString(),
@@ -67,7 +69,7 @@ class _HighscoresScreenState extends State<HighscoresScreen> {
                 ),
                 ),
                 StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('HighScores').snapshots(),
+                  stream: FirebaseFirestore.instance.collection('HighScores').orderBy("score",descending: true).snapshots(),
                   builder: (context,snapshot){
                     if(!snapshot.hasData) {
                       return const Center(
@@ -79,7 +81,7 @@ class _HighscoresScreenState extends State<HighscoresScreen> {
                       shrinkWrap: true,
                       itemExtent: 80,
                       itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context,index)=> buildHighScore(context, snapshot.data!.docs[index]),
+                      itemBuilder: (context,index)=> buildHighScore(context, snapshot.data!.docs[index],index+1),
                     );
                   }
                 ),
